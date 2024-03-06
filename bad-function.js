@@ -1,21 +1,21 @@
 function renderContent(renderInformation) {
   const element = renderInformation.element;
-  if (element === 'script' || element === 'SCRIPT') {
-    throw new Error('Invalid element.');
+  if (element === "script" || element === "SCRIPT") {
+    throw new Error("Invalid element.");
   }
 
-  let partialOpeningTag = '<' + element;
+  let partialOpeningTag = "<" + element;
 
   const attributes = renderInformation.attributes;
 
   for (const attribute of attributes) {
     partialOpeningTag =
-      partialOpeningTag + ' ' + attribute.name + '="' + attribute.value + '"';
+      partialOpeningTag + " " + attribute.name + '="' + attribute.value + '"';
   }
 
-  const openingTag = partialOpeningTag + '>';
+  const openingTag = partialOpeningTag + ">";
 
-  const closingTag = '</' + element + '>';
+  const closingTag = "</" + element + ">";
   const content = renderInformation.content;
 
   const template = openingTag + content + closingTag;
@@ -24,3 +24,24 @@ function renderContent(renderInformation) {
 
   rootElement.innerHTML = template;
 }
+
+const createUser = (email, password) => {
+  validateInput(email, password);
+  saveUser(email, password);
+};
+
+const isValidInput = (email, password) => {
+  return password && password.trim() !== "" && email && email.includes("@");
+};
+
+const validateInput = (email, password) => {
+  if (!isValidInput(email, password)) {
+    throw new Error("Invalid input!");
+  }
+};
+
+const saveUser = (email, password) => {
+  const user = { email, password };
+  database.insert(user);
+};
+
