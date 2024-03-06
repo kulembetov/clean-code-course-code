@@ -25,13 +25,27 @@ function renderContent(renderInformation) {
   rootElement.innerHTML = template;
 }
 
+const createSupportChannel = (email) => {
+  if (!emailIsValid(email)) {
+    showErrorMessage("Invalid email - could not create channel");
+  }
+};
+
 const createUser = (email, password) => {
   validateInput(email, password);
   saveUser(email, password);
 };
 
 const isValidInput = (email, password) => {
-  return password && password.trim() !== "" && email && email.includes("@");
+  return emailIsValid(email) && passwordIsValid(password);
+};
+
+const emailIsValid = (email) => {
+  return email && email.includes("@");
+};
+
+const passwordIsValid = (password) => {
+  return password && password.trim() !== "";
 };
 
 const validateInput = (email, password) => {
@@ -40,8 +54,16 @@ const validateInput = (email, password) => {
   }
 };
 
+const showErrorMessage = (message) => {
+  console.log(message);
+};
+
 const saveUser = (email, password) => {
   const user = { email, password };
   database.insert(user);
 };
 
+
+const buildUser = (email, password) => {
+  return { email, password };
+};
